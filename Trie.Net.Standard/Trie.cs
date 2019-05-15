@@ -6,6 +6,17 @@ namespace Trie.Net.Standard
     {
         private Node<T> Root { get; } = new Node<T>(default);
 
+        public Node<T> LatestCommonNode
+        {
+            get
+            {
+                var node = Root;
+                while (node.Children.Count == 1)
+                    node = node.Children.Single();
+                return node == Root ? null : node;
+            }
+        }
+
         public bool Exists(params T[] values)
         {
             var node = Root;

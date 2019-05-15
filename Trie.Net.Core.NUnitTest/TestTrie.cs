@@ -34,6 +34,18 @@ namespace Trie.Net.Core.NUnitTest
         }
 
         [Test]
+        public void TestLatestCommonNode()
+        {
+            Trie.Insert("Micro".ToCharArray());
+            Trie.Insert("Microsoft".ToCharArray());
+            Trie.Insert("MyScript".ToCharArray());
+            var node = Trie.LatestCommonNode;
+            Assert.AreEqual(null, node.Parent);
+            Assert.AreEqual('M', node.Value);
+            Assert.IsTrue(node.Children.All(child => child.Value == 'i' || child.Value == 'y'));
+        }
+
+        [Test]
         [TestCase("Microbe", "Microphone")]
         public void TestNotExists(params string[] words)
         {
