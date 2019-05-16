@@ -37,5 +37,18 @@ namespace Trie.Net.Standard
                 node = node.Children.Single(child => child.Value.Equals(value));
             }
         }
+
+        public void Remove(params T[] values)
+        {
+            var node = Root;
+            foreach (var value in values)
+                if (node.Children.Any(child => child.Value.Equals(value)))
+                    node = node.Children.Single(child => child.Value.Equals(value));
+                else return;
+            if (node.Children.Count != 0) return;
+            while (node.Parent.Children.Count == 1)
+                node = node.Parent;
+            node.Parent.Children.Remove(node);
+        }
     }
 }

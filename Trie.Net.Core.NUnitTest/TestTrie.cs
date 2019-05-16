@@ -54,5 +54,22 @@ namespace Trie.Net.Core.NUnitTest
             Trie.Insert("MyScript".ToCharArray());
             Assert.IsFalse(words.Any(word => Trie.Exists(word.ToCharArray())));
         }
+
+        [Test]
+        [TestCase("Micro")]
+        public void TestRemove(params string[] words)
+        {
+            Trie.Insert("Micro".ToCharArray());
+            Trie.Insert("Microsoft".ToCharArray());
+            Trie.Insert("MyScript".ToCharArray());
+            foreach (var word in words)
+            {
+                Trie.Remove(word.ToCharArray());
+                Assert.IsFalse(Trie.Exists(word.ToCharArray()));
+            }
+
+            Assert.IsTrue(Trie.Exists("Microsoft".ToCharArray()));
+            Assert.IsTrue(Trie.Exists("MyScript".ToCharArray()));
+        }
     }
 }
