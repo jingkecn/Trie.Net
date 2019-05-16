@@ -40,7 +40,8 @@ namespace Trie.Net.Core.NUnitTest
             Trie.Insert("Microsoft".ToCharArray());
             Trie.Insert("MyScript".ToCharArray());
             var node = Trie.LatestCommonNode;
-            Assert.AreEqual(null, node.Parent);
+            var root = Trie.Root;
+            Assert.AreEqual(root, node.Parent);
             Assert.AreEqual('M', node.Value);
             Assert.IsTrue(node.Children.All(child => child.Value == 'i' || child.Value == 'y'));
         }
@@ -70,6 +71,15 @@ namespace Trie.Net.Core.NUnitTest
 
             Assert.IsTrue(Trie.Exists("Microsoft".ToCharArray()));
             Assert.IsTrue(Trie.Exists("MyScript".ToCharArray()));
+        }
+
+        [Test]
+        public void TestRoot()
+        {
+            var root = Trie.Root;
+            Assert.IsFalse(root.IsEnd);
+            Assert.AreEqual(null, root.Parent);
+            Assert.AreEqual(default(char), root.Value);
         }
     }
 }

@@ -11,11 +11,11 @@ namespace Trie.Net.Standard
                 var node = Root;
                 while (node.Children.Count == 1)
                     node = node.Children.Single();
-                return node == Root ? null : node;
+                return node;
             }
         }
 
-        private Node<T> Root { get; } = new Node<T>(default);
+        public Node<T> Root { get; } = new Node<T>(default);
 
         public bool Exists(params T[] values)
         {
@@ -33,7 +33,7 @@ namespace Trie.Net.Standard
             foreach (var value in values)
             {
                 if (node.Children.All(child => !child.Value.Equals(value)))
-                    node.Children.Add(new Node<T>(value, node == Root ? null : node));
+                    node.Children.Add(new Node<T>(value, node));
                 node = node.Children.Single(child => child.Value.Equals(value));
             }
 
@@ -53,11 +53,11 @@ namespace Trie.Net.Standard
                 return;
             }
 
-            var parent = node.Parent ?? Root;
+            var parent = node.Parent;
             while (parent != Root && parent.Children.Count == 1)
             {
                 node = parent;
-                parent = node.Parent ?? Root;
+                parent = node.Parent;
             }
 
             parent.Children.Remove(node);
