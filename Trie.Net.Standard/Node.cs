@@ -11,9 +11,8 @@ namespace Trie.Net.Standard
         }
 
         public HashSet<Node<T>> Children { get; } = new HashSet<Node<T>>();
-
+        public bool IsEnd { get; internal set; }
         public Node<T> Parent { get; }
-
         public T Value { get; }
     }
 }
