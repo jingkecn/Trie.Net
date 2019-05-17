@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Trie.Net.Standard
 {
@@ -9,7 +10,7 @@ namespace Trie.Net.Standard
     ///     which is used for retrieval of a key in a data set.
     /// </summary>
     /// <typeparam name="T">The value type of a trie.</typeparam>
-    public class Trie<T>
+    public partial class Trie<T>
     {
         /// <summary>
         ///     The latest common node of all keys of a tries.
@@ -105,6 +106,35 @@ namespace Trie.Net.Standard
             }
 
             parent.Children.Remove(node);
+        }
+
+        /// <summary>
+        ///     Search a node corresponding to a key value, by predicating custom criteria.
+        ///     We search a key by
+        ///     <see href="https://en.wikipedia.org/w/index.php?title=Depth-first_search&amp;oldid=896938638">DFS</see> algorithm.
+        ///     We start from the root and search a linked child, there are two cases:
+        ///     - The child satisfies the prediction. Then we return the current node and the algorithm finishes.
+        ///     - The child does not satisfy the prediction. Then we continue to search its children and repeat the previous step
+        ///     until the prediction is satisfied or all nodes are checked.
+        /// </summary>
+        /// <param name="value">The key value to search.</param>
+        /// <param name="predicate">Prediction for custom criteria.</param>
+        /// <returns>The node corresponding to the key value, or <code>null</code> if it does not exists.</returns>
+        public Node<T> Search(T value, Func<T, Node<T>, bool> predicate)
+        {
+            return Search(value, Root, predicate);
+        }
+    }
+
+    public partial class Trie<T>
+    {
+        private static Node<T> Search(T value, Node<T> root, Func<T, Node<T>, bool> predicate)
+        {
+            if (predicate(value, root)) return root;
+            foreach (var child in root.Children)
+                if (Search(value, child, predicate) is Node<T> node)
+                    return node;
+            return null;
         }
     }
 }

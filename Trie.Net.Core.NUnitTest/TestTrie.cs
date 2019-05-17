@@ -81,5 +81,30 @@ namespace Trie.Net.Core.NUnitTest
             Assert.AreEqual(null, root.Parent);
             Assert.AreEqual(default(char), root.Value);
         }
+
+        [Test]
+        [TestCase('a')]
+        [TestCase('o')]
+        public void TestSearch(char target)
+        {
+            Trie.Insert("Micro".ToCharArray());
+            Trie.Insert("Microsoft".ToCharArray());
+            Trie.Insert("MyScript".ToCharArray());
+            var result = Trie.Search(target, (character, node) => node.Value == character && node.IsEnd);
+            if (target == 'a')
+            {
+                Assert.AreEqual(null, result);
+                return;
+            }
+
+            if (target == 'o')
+            {
+                Assert.AreEqual(target, result.Value);
+                Assert.IsTrue(result.IsEnd);
+                return;
+            }
+
+            Assert.Pass($"TestSearch({target})");
+        }
     }
 }
