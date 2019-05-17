@@ -79,7 +79,7 @@ namespace Trie.Net.Standard
         ///     Path from root to a predicated node.
         /// </summary>
         /// <param name="predicate">Predicated criteria.</param>
-        /// <returns>The path from root to the predicated node, or <code>null</code> if there is no predicated node.</returns>
+        /// <returns>The path from root to the predicated node.</returns>
         public IEnumerable<Node<T>> PathTo(Predicate<Node<T>> predicate)
         {
             var node = Search(predicate).Single();
