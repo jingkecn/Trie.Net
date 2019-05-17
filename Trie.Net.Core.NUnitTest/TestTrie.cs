@@ -16,13 +16,14 @@ namespace Trie.Net.Core.NUnitTest
         private Trie<char> Trie { get; set; }
 
         [Test]
-        [TestCase("Micro", "Microsoft", "MyScript")]
-        public void TestExists(params string[] words)
+        [TestCase("Micro", "Microsoft", "MyScript", ExpectedResult = true)]
+        [TestCase("Microbe", "Microphone", ExpectedResult = false)]
+        public bool TestExists(params string[] words)
         {
             Trie.Insert("Micro".ToCharArray());
             Trie.Insert("Microsoft".ToCharArray());
             Trie.Insert("MyScript".ToCharArray());
-            Assert.IsTrue(words.All(word => Trie.Exists(word.ToCharArray())));
+            return words.All(word => Trie.Exists(word.ToCharArray()));
         }
 
         [Test]
@@ -44,16 +45,6 @@ namespace Trie.Net.Core.NUnitTest
             Assert.AreEqual(root, node.Parent);
             Assert.AreEqual('M', node.Value);
             Assert.IsTrue(node.Children.All(child => child.Value == 'i' || child.Value == 'y'));
-        }
-
-        [Test]
-        [TestCase("Microbe", "Microphone")]
-        public void TestNotExists(params string[] words)
-        {
-            Trie.Insert("Micro".ToCharArray());
-            Trie.Insert("Microsoft".ToCharArray());
-            Trie.Insert("MyScript".ToCharArray());
-            Assert.IsFalse(words.Any(word => Trie.Exists(word.ToCharArray())));
         }
 
         [Test]
