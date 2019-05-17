@@ -48,6 +48,17 @@ namespace Trie.Net.Core.NUnitTest
         }
 
         [Test]
+        [TestCase('f', ExpectedResult = "Microsof")]
+        [TestCase('p', ExpectedResult = "MyScrip")]
+        public string TestPathTo(char target)
+        {
+            Trie.Insert("Micro".ToCharArray());
+            Trie.Insert("Microsoft".ToCharArray());
+            Trie.Insert("MyScript".ToCharArray());
+            return new string(Trie.PathTo(node => node.Value == target).Select(item => item.Value).ToArray());
+        }
+
+        [Test]
         [TestCase("Micro")]
         public void TestRemove(params string[] words)
         {

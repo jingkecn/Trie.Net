@@ -76,6 +76,24 @@ namespace Trie.Net.Standard
         }
 
         /// <summary>
+        ///     Path from root to a predicated node.
+        /// </summary>
+        /// <param name="predicate">Predicated criteria.</param>
+        /// <returns>The path from root to the predicated node, or <code>null</code> if there is no predicated node.</returns>
+        public IEnumerable<Node<T>> PathTo(Predicate<Node<T>> predicate)
+        {
+            var node = Search(predicate).Single();
+            var stack = new Stack<Node<T>>();
+            do
+            {
+                stack.Push(node);
+                node = node.Parent;
+            } while (node != Root);
+
+            return stack.ToArray();
+        }
+
+        /// <summary>
         ///     Removal of a key from a trie.
         ///     We remove a key by searching into a trie. We start form the end node, which corresponds to the last value of the
         ///     key. There are two cases:
