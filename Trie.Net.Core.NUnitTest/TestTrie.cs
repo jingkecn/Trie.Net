@@ -35,16 +35,12 @@ namespace Trie.Net.Core.NUnitTest
         }
 
         [Test]
-        public void TestLatestCommonNode()
+        [TestCase("Micro", "Microsoft", ExpectedResult = "Micro")]
+        [TestCase("Micro", "Microsoft", "MyScript", ExpectedResult = "M")]
+        public string TestLongestCommonPrefix(params string[] words)
         {
-            Trie.Insert("Micro".ToCharArray());
-            Trie.Insert("Microsoft".ToCharArray());
-            Trie.Insert("MyScript".ToCharArray());
-            var node = Trie.LatestCommonNode;
-            var root = Trie.Root;
-            Assert.AreEqual(root, node.Parent);
-            Assert.AreEqual('M', node.Value);
-            Assert.IsTrue(node.Children.All(child => child.Value == 'i' || child.Value == 'y'));
+            foreach (var word in words) Trie.Insert(word.ToCharArray());
+            return new string(Trie.LongestCommonPrefix.ToArray());
         }
 
         [Test]

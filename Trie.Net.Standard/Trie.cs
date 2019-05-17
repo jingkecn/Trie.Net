@@ -14,17 +14,19 @@ namespace Trie.Net.Standard
     public partial class Trie<T>
     {
         /// <summary>
-        ///     The latest common node of all keys of a tries.
-        ///     It corresponds to the last key value of the longest common prefix of all keys.
+        ///     Longest common prefix among all keys of a tries.
         /// </summary>
-        public Node<T> LatestCommonNode
+        public IEnumerable<T> LongestCommonPrefix
         {
             get
             {
                 var node = Root;
                 while (node.Children.Count == 1)
+                {
                     node = node.Children.Single();
-                return node;
+                    yield return node.Value;
+                    if (node.IsEnd) yield break;
+                }
             }
         }
 
