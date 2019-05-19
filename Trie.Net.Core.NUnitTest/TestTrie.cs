@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Trie.Net.Standard;
 
@@ -13,6 +16,52 @@ namespace Trie.Net.Core.NUnitTest
             Trie = new Trie<char>();
         }
 
+        private static IEnumerable<string> Presets => new[] {"Micro", "Microsoft", "MyScript"};
+
+        public static IEnumerable TestCasePathTo
+        {
+            get
+            {
+                yield return new TestCaseData(
+                        new Predicate<Node<char>>(node => node.Value == 'o' && node.IsEnd),
+                        new Predicate<IEnumerable<Node<char>>>(nodes =>
+                            "Micro".SequenceEqual(nodes.Select(node => node.Value))))
+                    .Returns(true);
+                yield return new TestCaseData(
+                        new Predicate<Node<char>>(node => node.Value == 'p'),
+                        new Predicate<IEnumerable<Node<char>>>(nodes =>
+                            "MyScrip".SequenceEqual(nodes.Select(node => node.Value))))
+                    .Returns(true);
+                yield return new TestCaseData(
+                        new Predicate<Node<char>>(node => node.Value == 'y'),
+                        new Predicate<IEnumerable<Node<char>>>(nodes =>
+                            "My".SequenceEqual(nodes.Select(node => node.Value))))
+                    .Returns(true);
+            }
+        }
+
+        public static IEnumerable TestCaseSearch
+        {
+            get
+            {
+                yield return new TestCaseData(
+                        new Predicate<Node<char>>(node => node.Value == 'o' && node.IsEnd),
+                        new Predicate<IEnumerable<Node<char>>>(nodes =>
+                            new[] {'o'}.SequenceEqual(nodes.Select(node => node.Value))))
+                    .Returns(true);
+                yield return new TestCaseData(
+                        new Predicate<Node<char>>(node => node.Value == 'p'),
+                        new Predicate<IEnumerable<Node<char>>>(nodes =>
+                            new[] {'p'}.SequenceEqual(nodes.Select(node => node.Value))))
+                    .Returns(true);
+                yield return new TestCaseData(
+                        new Predicate<Node<char>>(node => node.Value == 'y'),
+                        new Predicate<IEnumerable<Node<char>>>(nodes =>
+                            new[] {'y'}.SequenceEqual(nodes.Select(node => node.Value))))
+                    .Returns(true);
+            }
+        }
+
         private Trie<char> Trie { get; set; }
 
         [Test]
@@ -20,9 +69,7 @@ namespace Trie.Net.Core.NUnitTest
         [TestCase("Microbe", "Microphone", ExpectedResult = false)]
         public bool TestExists(params string[] words)
         {
-            Trie.Insert("Micro".ToCharArray());
-            Trie.Insert("Microsoft".ToCharArray());
-            Trie.Insert("MyScript".ToCharArray());
+            foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
             return words.All(word => Trie.Exists(word.ToCharArray()));
         }
 
@@ -44,31 +91,22 @@ namespace Trie.Net.Core.NUnitTest
         }
 
         [Test]
-        [TestCase('f', ExpectedResult = "Microsof")]
-        [TestCase('p', ExpectedResult = "MyScrip")]
-        public string TestPathTo(char target)
+        [TestCaseSource(nameof(TestCasePathTo))]
+        public bool TestPathTo(Predicate<Node<char>> predicate, Predicate<IEnumerable<Node<char>>> expected)
         {
-            Trie.Insert("Micro".ToCharArray());
-            Trie.Insert("Microsoft".ToCharArray());
-            Trie.Insert("MyScript".ToCharArray());
-            return new string(Trie.PathTo(node => node.Value == target).Select(item => item.Value).ToArray());
+            foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
+            return expected(Trie.PathTo(predicate));
         }
 
         [Test]
-        [TestCase("Micro")]
-        public void TestRemove(params string[] words)
+        [TestCase("Micro", ExpectedResult = true)]
+        public bool TestRemove(params string[] words)
         {
-            Trie.Insert("Micro".ToCharArray());
-            Trie.Insert("Microsoft".ToCharArray());
-            Trie.Insert("MyScript".ToCharArray());
-            foreach (var word in words)
-            {
-                Trie.Remove(word.ToCharArray());
-                Assert.IsFalse(Trie.Exists(word.ToCharArray()));
-            }
-
-            Assert.IsTrue(Trie.Exists("Microsoft".ToCharArray()));
-            Assert.IsTrue(Trie.Exists("MyScript".ToCharArray()));
+            foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
+            foreach (var word in words) Trie.Remove(word.ToCharArray());
+            var remaining = Presets.Except(words);
+            return words.All(word => !Trie.Exists(word.ToCharArray())) &&
+                   remaining.All(word => Trie.Exists(word.ToCharArray()));
         }
 
         [Test]
@@ -81,18 +119,11 @@ namespace Trie.Net.Core.NUnitTest
         }
 
         [Test]
-        [TestCase('o')]
-        public void TestSearch(char target)
+        [TestCaseSource(nameof(TestCaseSearch))]
+        public bool TestSearch(Predicate<Node<char>> predicate, Predicate<IEnumerable<Node<char>>> expected)
         {
-            Trie.Insert("Micro".ToCharArray());
-            Trie.Insert("Microsoft".ToCharArray());
-            Trie.Insert("MyScript".ToCharArray());
-            var results = Trie.Search(node => node.Value == target).ToList();
-            Assert.IsNotEmpty(results);
-            Assert.IsTrue(results.All(result =>
-                result.Value == target &&
-                "rs".Contains(result.Parent.Value) /* the parent of 'o' is either 'r' or 's' */ &&
-                result.Children.All(child => "sf".Contains(child.Value) /* the child of 'o' is either 's' or 'f' */)));
+            foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
+            return expected(Trie.Search(predicate));
         }
     }
 }
