@@ -14,6 +14,12 @@ namespace Trie.Net.Standard
     public partial class Trie<T>
     {
         /// <summary>
+        ///     Keys of a trie.
+        /// </summary>
+        public IEnumerable<IEnumerable<T>> Keys =>
+            PathTo(node => node.IsEnd).Select(nodes => nodes.Select(node => node.Value));
+
+        /// <summary>
         ///     Longest common prefix among all keys of a tries.
         /// </summary>
         public IEnumerable<T> LongestCommonPrefix
@@ -137,7 +143,7 @@ namespace Trie.Net.Standard
         /// <returns>Nodes satisfying the predicated criteria.</returns>
         public IEnumerable<Node<T>> Search(Predicate<Node<T>> predicate)
         {
-            return Search(Root, predicate);
+            return Search(Root, predicate).Distinct();
         }
     }
 

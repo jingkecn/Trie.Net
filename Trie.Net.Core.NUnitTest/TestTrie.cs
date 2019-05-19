@@ -27,6 +27,16 @@ namespace Trie.Net.Core.NUnitTest
             }
         }
 
+        public static IEnumerable TestCaseInsert
+        {
+            get
+            {
+                yield return new TestCaseData(Presets,
+                        new Predicate<IEnumerable<string>>(words => words.All(word => Presets.Contains(word))))
+                    .Returns(true);
+            }
+        }
+
         public static IEnumerable TestCasePathTo
         {
             get
@@ -54,6 +64,16 @@ namespace Trie.Net.Core.NUnitTest
                         new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
                             paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
                                 .All(word => new[] {"My"}.Contains(word))))
+                    .Returns(true);
+            }
+        }
+
+        public static IEnumerable TestCaseRemove
+        {
+            get
+            {
+                yield return new TestCaseData(Presets,
+                        new Predicate<IEnumerable<string>>(words => words.All(word => !Presets.Contains(word))))
                     .Returns(true);
             }
         }
@@ -91,11 +111,11 @@ namespace Trie.Net.Core.NUnitTest
         }
 
         [Test]
-        [TestCase("Micro", "Microsoft", "MyScript")]
-        public void TestInsert(params string[] words)
+        [TestCaseSource(nameof(TestCaseInsert))]
+        public bool TestInsert(IEnumerable<string> words, Predicate<IEnumerable<string>> expected)
         {
             foreach (var word in words) Trie.Insert(word.ToCharArray());
-            // TODO: test assertion.
+            return expected(Trie.Keys.Select(key => new string(key.ToArray())));
         }
 
         [Test]
@@ -117,12 +137,12 @@ namespace Trie.Net.Core.NUnitTest
         }
 
         [Test]
-        [TestCase("Micro", ExpectedResult = true)]
-        public bool TestRemove(params string[] words)
+        [TestCaseSource(nameof(TestCaseRemove))]
+        public bool TestRemove(IEnumerable<string> words, Predicate<IEnumerable<string>> expected)
         {
             foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
             foreach (var word in words) Trie.Remove(word.ToCharArray());
-            return true; // TODO: test assertion.
+            return expected(Trie.Keys.Select(key => new string(key.ToArray())));
         }
 
         [Test]
