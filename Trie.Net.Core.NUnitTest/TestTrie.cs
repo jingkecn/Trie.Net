@@ -23,19 +23,28 @@ namespace Trie.Net.Core.NUnitTest
             get
             {
                 yield return new TestCaseData(
-                        new Predicate<Node<char>>(node => node.Value == 'o' && node.IsEnd),
-                        new Predicate<IEnumerable<Node<char>>>(nodes =>
-                            "Micro".SequenceEqual(nodes.Select(node => node.Value))))
+                        new Predicate<Node<char>>(node => node.Value == 'o'),
+                        new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
+                            paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
+                                .All(word => new[] {"Micro", "Microso"}.Contains(word))))
+                    .Returns(true);
+                yield return new TestCaseData(
+                        new Predicate<Node<char>>(node => node.Value == 't'),
+                        new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
+                            paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
+                                .All(word => new[] {"Microsoft", "MyScript"}.Contains(word))))
                     .Returns(true);
                 yield return new TestCaseData(
                         new Predicate<Node<char>>(node => node.Value == 'p'),
-                        new Predicate<IEnumerable<Node<char>>>(nodes =>
-                            "MyScrip".SequenceEqual(nodes.Select(node => node.Value))))
+                        new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
+                            paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
+                                .All(word => new[] {"MyScrip"}.Contains(word))))
                     .Returns(true);
                 yield return new TestCaseData(
                         new Predicate<Node<char>>(node => node.Value == 'y'),
-                        new Predicate<IEnumerable<Node<char>>>(nodes =>
-                            "My".SequenceEqual(nodes.Select(node => node.Value))))
+                        new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
+                            paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
+                                .All(word => new[] {"My"}.Contains(word))))
                     .Returns(true);
             }
         }
@@ -92,7 +101,8 @@ namespace Trie.Net.Core.NUnitTest
 
         [Test]
         [TestCaseSource(nameof(TestCasePathTo))]
-        public bool TestPathTo(Predicate<Node<char>> predicate, Predicate<IEnumerable<Node<char>>> expected)
+        public bool TestPathTo(Predicate<Node<char>> predicate,
+            Predicate<IEnumerable<IEnumerable<Node<char>>>> expected)
         {
             foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
             return expected(Trie.PathTo(predicate));

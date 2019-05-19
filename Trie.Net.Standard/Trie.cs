@@ -78,21 +78,24 @@ namespace Trie.Net.Standard
         }
 
         /// <summary>
-        ///     Path from root to a predicated node.
+        ///     Paths from root to predicated nodes.
         /// </summary>
         /// <param name="predicate">Predicated criteria.</param>
-        /// <returns>The path from root to the predicated node.</returns>
-        public IEnumerable<Node<T>> PathTo(Predicate<Node<T>> predicate)
+        /// <returns>Paths from root to the predicated nodes.</returns>
+        public IEnumerable<IEnumerable<Node<T>>> PathTo(Predicate<Node<T>> predicate)
         {
-            var node = Search(predicate).Single();
-            var stack = new Stack<Node<T>>();
-            do
+            foreach (var result in Search(predicate))
             {
-                stack.Push(node);
-                node = node.Parent;
-            } while (node != Root);
+                var node = result;
+                var stack = new Stack<Node<T>>();
+                do
+                {
+                    stack.Push(node);
+                    node = node.Parent;
+                } while (node != Root);
 
-            return stack.ToArray();
+                yield return stack.ToArray();
+            }
         }
 
         /// <summary>
