@@ -52,6 +52,16 @@ namespace Trie.Net.Standard
         }
 
         /// <summary>
+        ///     Existence of a key.
+        /// </summary>
+        /// <param name="values">The key, in form of a <code>T</code> value sequence.</param>
+        /// <returns><code>true</code> if the key is in the trie, otherwise <code>false</code>.</returns>
+        public bool Contains(params T[] values)
+        {
+            return Keys.Any(key => key.SequenceEqual(values));
+        }
+
+        /// <summary>
         ///     Insertion of a key to a trie.
         ///     We insert a key by searching into a trie. We start from the root and search a linked child, which corresponds to
         ///     the first key value. There are two cases:

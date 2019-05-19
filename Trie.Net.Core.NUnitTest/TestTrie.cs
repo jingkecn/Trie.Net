@@ -103,6 +103,15 @@ namespace Trie.Net.Core.NUnitTest
         private Trie<char> Trie { get; set; }
 
         [Test]
+        [TestCase("Micro", "Microsoft", "MyScript", ExpectedResult = true)]
+        [TestCase("Microphone", "Microwave", ExpectedResult = false)]
+        public bool TestContains(params string[] words)
+        {
+            foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
+            return words.All(word => Trie.Contains(word.ToCharArray()));
+        }
+
+        [Test]
         [TestCaseSource(nameof(TestCaseContains))]
         public bool TestContains(Predicate<Node<char>> predicate)
         {
