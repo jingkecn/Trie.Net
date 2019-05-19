@@ -7,16 +7,17 @@
     <Copyright>Copyright (c) 2019 Jing KE</Copyright>
     <Product>Trie.Net.Standard</Product>
     <PackageId>Trie.Net.Standard</PackageId>
-    <PackageReleaseNotes>Implement `Trie.PathTo`.
+    <PackageReleaseNotes>Implement `Trie.Keys` and `Trie.Contains(key)`.
+Implement `Trie.PathTo`.
 Fix `Trie.Search`.</PackageReleaseNotes>
-    <Version>1.0.0.5</Version>
+    <Version>1.0.1</Version>
     <PackageProjectUrl>https://github.com/jingkecn/Trie.Net</PackageProjectUrl>
     <PackageTags>Trie, Prefix Tree, .Net Standard</PackageTags>
     <Authors>Jing KE</Authors>
     <RepositoryUrl>https://github.com/jingkecn/Trie.Net</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <AssemblyVersion>1.0.0.5</AssemblyVersion>
-    <FileVersion>1.0.0.5</FileVersion>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
