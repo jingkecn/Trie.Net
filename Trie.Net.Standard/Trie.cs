@@ -36,21 +36,13 @@ namespace Trie.Net.Standard
         public Node<T> Root { get; } = new Node<T>(default);
 
         /// <summary>
-        ///     Existence of a key in a trie.
-        ///     A key exists if and only if a trie has a complete path for the sequence of key values and the node corresponding to
-        ///     the last key value is an end node. For example, within a trie containing the string "Microsoft", both "Microwave"
-        ///     and "Micro" do not exist.
+        ///     Existence of predicated nodes.
         /// </summary>
-        /// <param name="values">The key to verify, in form of a sequence of <code>T</code>-typed values.</param>
-        /// <returns></returns>
-        public bool Exists(params T[] values)
+        /// <param name="predicate">Predicated criteria.</param>
+        /// <returns><code>true</code> if the trie contains the predicated nodes, otherwise <code>false</code>.</returns>
+        public bool Contains(Predicate<Node<T>> predicate)
         {
-            var node = Root;
-            foreach (var value in values)
-                if (node.Children.Any(child => child.Value.Equals(value)))
-                    node = node.Children.Single(child => child.Value.Equals(value));
-                else return false;
-            return node.IsEnd;
+            return Search(predicate).Count() != 0;
         }
 
         /// <summary>
