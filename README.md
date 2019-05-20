@@ -82,7 +82,7 @@ It is as easy as key insertion to remove a key, via the API `Trie.Remove(params 
 ///     node from its linked parent and the algorithm finishes.
 /// </summary>
 /// <param name="values">The key to remove, in form of a sequence of <code>T</code>-typed values.</param>
-public void Remove(params T[] values)
+Trie.Remove(params T[] values);
 ```
 
 ### Others
