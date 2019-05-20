@@ -128,21 +128,21 @@ namespace Trie.Net.Core.NUnitTest
         }
 
         [Test]
-        [TestCase("Micro", "Microsoft", ExpectedResult = "Micro")]
-        [TestCase("Micro", "Microsoft", "MyScript", ExpectedResult = "M")]
-        public string TestLongestCommonPrefix(params string[] words)
-        {
-            foreach (var word in words) Trie.Insert(word.ToCharArray());
-            return new string(Trie.LongestCommonPrefix.ToArray());
-        }
-
-        [Test]
         [TestCaseSource(nameof(TestCasePathTo))]
         public bool TestPathTo(Predicate<Node<char>> predicate,
             Predicate<IEnumerable<IEnumerable<Node<char>>>> expected)
         {
             foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
             return expected(Trie.PathTo(predicate));
+        }
+
+        [Test]
+        [TestCase("Micro", "Microsoft", ExpectedResult = "Micro")]
+        [TestCase("Micro", "Microsoft", "MyScript", ExpectedResult = "M")]
+        public string TestPrefix(params string[] words)
+        {
+            foreach (var word in words) Trie.Insert(word.ToCharArray());
+            return new string(Trie.Prefix.ToArray());
         }
 
         [Test]

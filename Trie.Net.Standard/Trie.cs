@@ -20,9 +20,9 @@ namespace Trie.Net.Standard
             PathTo(node => node.IsEnd).Select(nodes => nodes.Select(node => node.Value));
 
         /// <summary>
-        ///     Longest common prefix among all keys of a tries.
+        ///     Longest common prefix among all keys of a trie.
         /// </summary>
-        public IEnumerable<T> LongestCommonPrefix
+        public IEnumerable<T> Prefix
         {
             get
             {
