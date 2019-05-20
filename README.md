@@ -97,15 +97,15 @@ Here is a full reference of API that could help develop with a `Trie`:
 
 #### Properties
 
-| Name               | Type               | Description                                                                                         |
-| ------------------ | ------------------ | --------------------------------------------------------------------------------------------------- |
-| `Node<T>.Children` | `HashSet<Node<T>>` | A set of linked children of a node.                                                                 |
-| `Node<T>.IsEnd`    | `bool`             | `true` if a node corresponds to the end of the searched key, otherwise `false`.                     |
-| `Node<T>.Parent`   | `Node<T>`          | The linked parent of a node.                                                                        |
-| `Node<T>.Value`    | `T`                | The corresponding `T`-typed value of a node.                                                        |
-| `Trie<T>.Keys`     | `IEnumerable<T>`   | Keys in the `Trie`, each of whose last value corresponds to an end node.                            |
-| `Trie<T>.Prefix`   | `IEnumerable<T>`   | Longest common prefix of all keys.                                                                  |
-| `Trie<T>.Root`     | `Node<T>`          | The `Root` node holds all branches of the `Trie`, with a `default` value depending on the type `T`. |
+| Name               | Type                   | Description                                                                                         |
+| ------------------ | ---------------------- | --------------------------------------------------------------------------------------------------- |
+| `Node<T>.Children` | `IEnumerable<Node<T>>` | A set of linked children of a node.                                                                 |
+| `Node<T>.IsEnd`    | `bool`                 | `true` if a node corresponds to the end of the searched key, otherwise `false`.                     |
+| `Node<T>.Parent`   | `Node<T>`              | The linked parent of a node.                                                                        |
+| `Node<T>.Value`    | `T`                    | The corresponding `T`-typed value of a node.                                                        |
+| `Trie<T>.Keys`     | `IEnumerable<T>`       | Keys in the `Trie`, each of whose last value corresponds to an end node.                            |
+| `Trie<T>.Prefix`   | `IEnumerable<T>`       | Longest common prefix of all keys.                                                                  |
+| `Trie<T>.Root`     | `Node<T>`              | The `Root` node holds all branches of the `Trie`, with a `default` value depending on the type `T`. |
 
 #### Methods
 
