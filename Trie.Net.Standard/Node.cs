@@ -20,7 +20,7 @@ namespace Trie.Net.Standard
         /// <summary>
         ///     A set of linked children of a node.
         /// </summary>
-        public HashSet<Node<T>> Children { get; } = new HashSet<Node<T>>();
+        public IEnumerable<Node<T>> Children { get; } = new HashSet<Node<T>>();
 
         /// <summary>
         ///     <code>true</code> if a node corresponds to the end of the searched key, otherwise <code>false</code>.

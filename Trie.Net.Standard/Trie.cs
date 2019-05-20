@@ -27,7 +27,7 @@ namespace Trie.Net.Standard
             get
             {
                 var node = Root;
-                while (node.Children.Count == 1)
+                while (node.Children.Count() == 1)
                 {
                     node = node.Children.Single();
                     yield return node.Value;
@@ -78,7 +78,7 @@ namespace Trie.Net.Standard
             foreach (var value in values)
             {
                 if (node.Children.All(child => !child.Value.Equals(value)))
-                    node.Children.Add(new Node<T>(value, node));
+                    (node.Children as HashSet<Node<T>>)?.Add(new Node<T>(value, node));
                 node = node.Children.Single(child => child.Value.Equals(value));
             }
 
@@ -124,20 +124,20 @@ namespace Trie.Net.Standard
                 if (node.Children.Any(child => child.Value.Equals(value)))
                     node = node.Children.Single(child => child.Value.Equals(value));
                 else return;
-            if (node.Children.Count != 0)
+            if (node.Children.Count() != 0)
             {
                 node.IsEnd = false;
                 return;
             }
 
             var parent = node.Parent;
-            while (parent != Root && parent.Children.Count == 1)
+            while (parent != Root && parent.Children.Count() == 1)
             {
                 node = parent;
                 parent = node.Parent;
             }
 
-            parent.Children.Remove(node);
+            (parent.Children as HashSet<Node<T>>)?.Remove(node);
         }
 
         /// <summary>
