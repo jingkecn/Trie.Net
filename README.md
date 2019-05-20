@@ -117,7 +117,7 @@ In addition to the two main functionalities above, there are also other APIs tha
 
 ## Contributing
 
-Better ideas or improvements are welcome if you have any, just [fork](https://github.com/jingkecn/Trie.Net) me and send a **pull request** and let's see what could be going on.
+Better ideas or improvements are welcome if you have any, just [fork](https://github.com/jingkecn/Trie.Net/fork) me and send a **pull request** and let's see what could be going on.
 
 ## Links
 
