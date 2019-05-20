@@ -12,6 +12,7 @@
     - [Insert A Key](#insert-a-key)
     - [Remove A Key](#remove-a-key)
     - [Others](#others)
+      - [Constructors](#constructors)
       - [Properties](#properties)
       - [Methods](#methods)
   - [Contributing](#contributing)
@@ -86,6 +87,14 @@ Trie<T>.Remove(params T[] values);
 
 In addition to the two main functionalities above, there are also other APIs that could help us develop with a `Trie`:
 
+#### Constructors
+
+| Name                  | Description                                                                                                    |
+| --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `Node<T>(T)`          | Initializes the `Node<T>` object with a T-typed value.                                                         |
+| `Node<T>(T, Node<T>)` | Initializes the `Node<T>` object with a T-typed value and a parent node, to which the node should be attached. |
+| `Trie<T>()`           | Initializes a new instance of `Trie<T>`.                                                                       |
+
 #### Properties
 
 | Name                          | Type               | Description                                                                                         |
@@ -102,7 +111,7 @@ In addition to the two main functionalities above, there are also other APIs tha
 
 | Name                                           | Return Type                         | Description                                                                                                                                                                                                                        |
 | ---------------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Trie<T>.Contains(params T[] values)`          | `bool`                              | Check the existence of a key.                                                                                                                                                                                                      |
+| `Trie<T>.Contains(params T[] values)`          | `bool`                              | Checks the existence of a key.                                                                                                                                                                                                     |
 | `Trie<T>.PathTo(Predicate<Node<T>> predicate)` | `IEnumerable<IEnumerable<Node<T>>>` | Returns a list of path from the `Root` to a predicable node. The parameter `predicate` is a [`Predicate<Node<T>>`](https://docs.microsoft.com/en-us/dotnet/api/system.predicate-1) defining the criteria to predicate a `Node<T>`. |
 | `Trie<T>.Search(Predicate<Node<T>> predicate)` | `IEnumerable<Node<T>>`              | Returns a list of node that satisfies the criteria of predicable node.                                                                                                                                                             |
 
