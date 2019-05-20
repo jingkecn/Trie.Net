@@ -91,11 +91,11 @@ In addition to the two main functionalities above, there are also other APIs tha
 
 #### Properties
 
-| Name                       | Type              | Description                                                                                         |
-| -------------------------- | ----------------- | --------------------------------------------------------------------------------------------------- |
-| `Trie.Keys`                | `IEnumeration<T>` | Keys in the `Trie`, each of whose last value corresponds to an end node.                            |
-| `Trie.LongestCommonPrefix` | `IEnumeration<T>` | Longest common prefix of all keys.                                                                  |
-| `Trie.Root`                | `Node<T>`         | The `Root` node holds all branches of the `Trie`, with a `default` value depending on the type `T`. |
+| Name                       | Type             | Description                                                                                         |
+| -------------------------- | ---------------- | --------------------------------------------------------------------------------------------------- |
+| `Trie.Keys`                | `IEnumerable<T>` | Keys in the `Trie`, each of whose last value corresponds to an end node.                            |
+| `Trie.LongestCommonPrefix` | `IEnumerable<T>` | Longest common prefix of all keys.                                                                  |
+| `Trie.Root`                | `Node<T>`        | The `Root` node holds all branches of the `Trie`, with a `default` value depending on the type `T`. |
 
 #### Methods
 
