@@ -49,7 +49,7 @@ This project is mainly to offer a small and lean set of APIs for a `Trie`, with 
 
 ### Insert A Key
 
-You may have already seen this API from the example in the previous section, it is quite easy to insert a key, which is a `string` in the example, as long as it consists a chain of `T`-typed values, which is a chain of `char` values in the example:
+You may have already seen this API from the example in the previous section, it is quite easy to insert a key, which is a `string` in the example, it is supposed to be a chain of `T`-typed values, which is a chain of `char` values in the example:
 
 ```csharp
 /// <summary>
