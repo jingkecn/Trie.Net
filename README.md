@@ -7,7 +7,7 @@
 A brief description of your project, what it is used for and how does life get
 awesome when someone starts to use it.
 
-**Trie.Net** is, by definition from its name, a library of the very classic data structure, Trie[[1]](#links).
+**Trie.Net** is, by definition from its name, a .Net library of the very classic data structure, Trie[[1]](#links). It is inspired from a LeetCode article[[2]](#links).
 
 - [Trie.Net](#trienet)
   - [Installing / Getting started](#installing--getting-started)
