@@ -91,19 +91,19 @@ In addition to the two main functionalities above, there are also other APIs tha
 
 #### Properties
 
-| Name                  | Type              | Description                                                                                         |
-| --------------------- | ----------------- | --------------------------------------------------------------------------------------------------- |
-| `Keys`                | `IEnumeration<T>` | Keys in the `Trie`, each of whose last value corresponds to an end node.                            |
-| `LongestCommonPrefix` | `IEnumeration<T>` | Longest common prefix of all keys.                                                                  |
-| `Root`                | `Node<T>`         | The `Root` node holds all branches of the `Trie`, with a `default` value depending on the type `T`. |
+| Name                       | Type              | Description                                                                                         |
+| -------------------------- | ----------------- | --------------------------------------------------------------------------------------------------- |
+| `Trie.Keys`                | `IEnumeration<T>` | Keys in the `Trie`, each of whose last value corresponds to an end node.                            |
+| `Trie.LongestCommonPrefix` | `IEnumeration<T>` | Longest common prefix of all keys.                                                                  |
+| `Trie.Root`                | `Node<T>`         | The `Root` node holds all branches of the `Trie`, with a `default` value depending on the type `T`. |
 
 #### Methods
 
-| Name                                   | Return Type                         | Description                                                                                                                                                                                                                       |
-| -------------------------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Contains(params T[] values)`          | `bool`                              | Check the existence of a key.                                                                                                                                                                                                     |
-| `PathTo(Predicate<Node<T>> predicate)` | `IEnumerable<IEnumerable<Node<T>>>` | Returns a list of path from the `Root` to a predicable node. The parameter `predicate` is a [`Predicate<Node<T>`](https://docs.microsoft.com/en-us/dotnet/api/system.predicate-1) defining the criteria to predicate a `Node<T>`. |
-| `Search(Predicate<Node<T>> predicate)` | `IEnumerable<Node<T>>`              | Returns a list of node that satisfies the criteria of predicable node.                                                                                                                                                            |
+| Name                                        | Return Type                         | Description                                                                                                                                                                                                                       |
+| ------------------------------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Trie.Contains(params T[] values)`          | `bool`                              | Check the existence of a key.                                                                                                                                                                                                     |
+| `Trie.PathTo(Predicate<Node<T>> predicate)` | `IEnumerable<IEnumerable<Node<T>>>` | Returns a list of path from the `Root` to a predicable node. The parameter `predicate` is a [`Predicate<Node<T>`](https://docs.microsoft.com/en-us/dotnet/api/system.predicate-1) defining the criteria to predicate a `Node<T>`. |
+| `Trie.Search(Predicate<Node<T>> predicate)` | `IEnumerable<Node<T>>`              | Returns a list of node that satisfies the criteria of predicable node.                                                                                                                                                            |
 
 ## Contributing
 
