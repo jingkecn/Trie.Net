@@ -41,7 +41,7 @@ Console.WriteLine(trie.LongestCommonPrefix);
 // Micro
 ```
 
-> You think that's it?! No, it is a lot more than you could image! Try me!
+> You think that's it?! No, it is a lot more than you could imagine! Try me!
 
 ## Features
 
