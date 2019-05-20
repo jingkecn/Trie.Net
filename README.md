@@ -11,7 +11,7 @@
   - [Features](#features)
     - [Insert A Key](#insert-a-key)
     - [Remove A Key](#remove-a-key)
-    - [API References](#api-references)
+    - [API Reference](#api-reference)
       - [Constructors](#constructors)
       - [Properties](#properties)
       - [Methods](#methods)
@@ -83,9 +83,9 @@ It is as easy as key insertion to remove a key, via the API `Trie.Remove(params 
 Trie<T>.Remove(params T[] values);
 ```
 
-### API References
+### API Reference
 
-In addition to the two main functionalities above, there are also other APIs that could help us develop with a `Trie`:
+Here is a full reference of API that could help develop with a `Trie`:
 
 #### Constructors
 
