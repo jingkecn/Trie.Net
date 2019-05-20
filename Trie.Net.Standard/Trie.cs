@@ -78,7 +78,7 @@ namespace Trie.Net.Standard
             foreach (var value in values)
             {
                 if (node.Children.All(child => !child.Value.Equals(value)))
-                    (node.Children as HashSet<Node<T>>)?.Add(new Node<T>(value, node));
+                    ((ICollection<Node<T>>) node.Children).Add(new Node<T>(value, node));
                 node = node.Children.Single(child => child.Value.Equals(value));
             }
 
@@ -137,7 +137,7 @@ namespace Trie.Net.Standard
                 parent = node.Parent;
             }
 
-            (parent.Children as HashSet<Node<T>>)?.Remove(node);
+            ((ICollection<Node<T>>) parent.Children).Remove(node);
         }
 
         /// <summary>
