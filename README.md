@@ -4,9 +4,6 @@
 
 > A small, lean and generic implementation of a [Trie](https://en.wikipedia.org/w/index.php?title=Trie&oldid=897578302) for .Net.
 
-A brief description of your project, what it is used for and how does life get
-awesome when someone starts to use it.
-
 **Trie.Net** is, by definition from its name, a .Net library of the very classic data structure, Trie[[1]](#links). It is inspired from a LeetCode article[[2]](#links).
 
 - [Trie.Net](#trienet)
