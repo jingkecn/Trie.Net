@@ -93,7 +93,7 @@ In addition to the two main functionalities above, there are also other APIs tha
 
 | Name                  | Type              | Description                                                                                         |
 | --------------------- | ----------------- | --------------------------------------------------------------------------------------------------- |
-| `Keys`                | `IEnumeration<T>` | Keys in the `Trie`, each of whose last value is an end node.                                        |
+| `Keys`                | `IEnumeration<T>` | Keys in the `Trie`, each of whose last value corresponds to an end node.                            |
 | `LongestCommonPrefix` | `IEnumeration<T>` | Longest common prefix of all keys.                                                                  |
 | `Root`                | `Node<T>`         | The `Root` node holds all branches of the `Trie`, with a `default` value depending on the type `T`. |
 
