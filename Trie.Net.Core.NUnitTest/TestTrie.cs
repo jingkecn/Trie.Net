@@ -16,14 +16,24 @@ namespace Trie.Net.Core.NUnitTest
             Trie = new Trie<char>();
         }
 
+        private static IEnumerable<string> Excludes => new[] {"Microbe", "Microphone", "Microwave"};
         private static IEnumerable<string> Presets => new[] {"Micro", "Microsoft", "MyScript"};
 
-        public static IEnumerable TestCaseContains
+        public static IEnumerable TestCaseContainsWithPredicate
         {
             get
             {
                 yield return new TestCaseData(new Predicate<Node<char>>(node => node.Value == 'e')).Returns(false);
                 yield return new TestCaseData(new Predicate<Node<char>>(node => node.Value == 'o')).Returns(true);
+            }
+        }
+
+        public static IEnumerable TestCaseContainsWithWords
+        {
+            get
+            {
+                yield return new TestCaseData(Excludes).Returns(false);
+                yield return new TestCaseData(Presets).Returns(true);
             }
         }
 
@@ -102,23 +112,25 @@ namespace Trie.Net.Core.NUnitTest
 
         private Trie<char> Trie { get; set; }
 
+        [Order(3)]
         [Test]
-        [TestCase("Micro", "Microsoft", "MyScript", ExpectedResult = true)]
-        [TestCase("Microphone", "Microwave", ExpectedResult = false)]
-        public bool TestContains(params string[] words)
-        {
-            foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
-            return words.All(word => Trie.Contains(word.ToCharArray()));
-        }
-
-        [Test]
-        [TestCaseSource(nameof(TestCaseContains))]
+        [TestCaseSource(nameof(TestCaseContainsWithPredicate))]
         public bool TestContains(Predicate<Node<char>> predicate)
         {
             foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
             return Trie.Contains(predicate);
         }
 
+        [Order(5)]
+        [Test]
+        [TestCaseSource(nameof(TestCaseContainsWithWords))]
+        public bool TestContains(params string[] words)
+        {
+            foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
+            return words.All(word => Trie.Contains(word.ToCharArray()));
+        }
+
+        [Order(1)]
         [Test]
         [TestCaseSource(nameof(TestCaseInsert))]
         public bool TestInsert(IEnumerable<string> words, Predicate<IEnumerable<string>> expected)
@@ -127,6 +139,15 @@ namespace Trie.Net.Core.NUnitTest
             return expected(Trie.Keys.Select(key => new string(key.ToArray())));
         }
 
+        [Order(4)]
+        [Test]
+        public void TestKeys()
+        {
+            foreach (var preset in Presets) Trie.Insert(preset.ToCharArray());
+            Assert.IsTrue(Presets.SequenceEqual(Trie.Keys.Select(key => new string(key.ToArray()))));
+        }
+
+        [Order(3)]
         [Test]
         [TestCaseSource(nameof(TestCasePathTo))]
         public bool TestPathTo(Predicate<Node<char>> predicate,
@@ -136,6 +157,7 @@ namespace Trie.Net.Core.NUnitTest
             return expected(Trie.PathTo(predicate));
         }
 
+        [Order(2)]
         [Test]
         [TestCase("Micro", "Microsoft", ExpectedResult = "Micro")]
         [TestCase("Micro", "Microsoft", "MyScript", ExpectedResult = "M")]
@@ -145,6 +167,7 @@ namespace Trie.Net.Core.NUnitTest
             return new string(Trie.Prefix.ToArray());
         }
 
+        [Order(2)]
         [Test]
         [TestCaseSource(nameof(TestCaseRemove))]
         public bool TestRemove(IEnumerable<string> words, Predicate<IEnumerable<string>> expected)
@@ -154,15 +177,14 @@ namespace Trie.Net.Core.NUnitTest
             return expected(Trie.Keys.Select(key => new string(key.ToArray())));
         }
 
+        [Order(0)]
         [Test]
         public void TestRoot()
         {
-            var root = Trie.Root;
-            Assert.IsFalse(root.IsEnd);
-            Assert.AreEqual(null, root.Parent);
-            Assert.AreEqual(default(char), root.Value);
+            Assert.IsTrue(!Trie.Root.IsEnd && Trie.Root.Parent == null && Trie.Root.Value == default(char));
         }
 
+        [Order(2)]
         [Test]
         [TestCaseSource(nameof(TestCaseSearch))]
         public bool TestSearch(Predicate<Node<char>> predicate, Predicate<IEnumerable<Node<char>>> expected)
