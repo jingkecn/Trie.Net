@@ -34,10 +34,10 @@ trie.Insert("Microsoft".ToCharArray());
 // 3 - Add word "Microbe".
 trie.Insert("Microbe".ToCharArray());
 // 4 - Print the longest common prefix.
-Console.WriteLine(trie.LongestCommonPrefix);
+Console.WriteLine($"The longest common prefix is '{new string(trie.Prefix.ToArray())}'.");
 
 // The console output should be:
-// Micro
+// The longest common prefix is 'Micro'.
 ```
 
 > You think that's it?! No, it is a lot more than you could imagine! Try me!
