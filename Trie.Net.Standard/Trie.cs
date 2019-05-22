@@ -48,7 +48,7 @@ namespace Trie.Net.Standard
         /// <returns><code>true</code> if the trie contains the predicated nodes, otherwise <code>false</code>.</returns>
         public bool Contains(Predicate<Node<T>> predicate)
         {
-            return Search(predicate).Count() != 0;
+            return Search(predicate).Any();
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Trie.Net.Standard
                 if (node.Children.Any(child => child.Value.Equals(value)))
                     node = node.Children.Single(child => child.Value.Equals(value));
                 else return;
-            if (node.Children.Count() != 0)
+            if (node.Children.Any())
             {
                 node.IsEnd = false;
                 return;
