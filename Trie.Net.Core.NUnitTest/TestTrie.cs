@@ -8,106 +8,12 @@ using Trie.Net.Standard;
 namespace Trie.Net.Core.NUnitTest
 {
     [TestFixture]
-    public class TestTrie
+    public partial class TestTrie
     {
         [SetUp]
         public void SetUp()
         {
             Trie = new Trie<char>();
-        }
-
-        private static IEnumerable<string> Excludes => new[] {"Microbe", "Microphone", "Microwave"};
-        private static IEnumerable<string> Presets => new[] {"Micro", "Microsoft", "MyScript"};
-
-        public static IEnumerable TestCaseContainsWithPredicate
-        {
-            get
-            {
-                yield return new TestCaseData(new Predicate<Node<char>>(node => node.Value == 'e')).Returns(false);
-                yield return new TestCaseData(new Predicate<Node<char>>(node => node.Value == 'o')).Returns(true);
-            }
-        }
-
-        public static IEnumerable TestCaseContainsWithWords
-        {
-            get
-            {
-                yield return new TestCaseData(Excludes).Returns(false);
-                yield return new TestCaseData(Presets).Returns(true);
-            }
-        }
-
-        public static IEnumerable TestCaseInsert
-        {
-            get
-            {
-                yield return new TestCaseData(Presets,
-                        new Predicate<IEnumerable<string>>(words => words.All(word => Presets.Contains(word))))
-                    .Returns(true);
-            }
-        }
-
-        public static IEnumerable TestCasePathTo
-        {
-            get
-            {
-                yield return new TestCaseData(
-                        new Predicate<Node<char>>(node => node.Value == 'o'),
-                        new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
-                            paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
-                                .All(word => new[] {"Micro", "Microso"}.Contains(word))))
-                    .Returns(true);
-                yield return new TestCaseData(
-                        new Predicate<Node<char>>(node => node.Value == 't'),
-                        new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
-                            paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
-                                .All(word => new[] {"Microsoft", "MyScript"}.Contains(word))))
-                    .Returns(true);
-                yield return new TestCaseData(
-                        new Predicate<Node<char>>(node => node.Value == 'p'),
-                        new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
-                            paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
-                                .All(word => new[] {"MyScrip"}.Contains(word))))
-                    .Returns(true);
-                yield return new TestCaseData(
-                        new Predicate<Node<char>>(node => node.Value == 'y'),
-                        new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
-                            paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
-                                .All(word => new[] {"My"}.Contains(word))))
-                    .Returns(true);
-            }
-        }
-
-        public static IEnumerable TestCaseRemove
-        {
-            get
-            {
-                yield return new TestCaseData(Presets,
-                        new Predicate<IEnumerable<string>>(words => words.All(word => !Presets.Contains(word))))
-                    .Returns(true);
-            }
-        }
-
-        public static IEnumerable TestCaseSearch
-        {
-            get
-            {
-                yield return new TestCaseData(
-                        new Predicate<Node<char>>(node => node.Value == 'o' && node.IsEnd),
-                        new Predicate<IEnumerable<Node<char>>>(nodes =>
-                            new[] {'o'}.SequenceEqual(nodes.Select(node => node.Value))))
-                    .Returns(true);
-                yield return new TestCaseData(
-                        new Predicate<Node<char>>(node => node.Value == 'p'),
-                        new Predicate<IEnumerable<Node<char>>>(nodes =>
-                            new[] {'p'}.SequenceEqual(nodes.Select(node => node.Value))))
-                    .Returns(true);
-                yield return new TestCaseData(
-                        new Predicate<Node<char>>(node => node.Value == 'y'),
-                        new Predicate<IEnumerable<Node<char>>>(nodes =>
-                            new[] {'y'}.SequenceEqual(nodes.Select(node => node.Value))))
-                    .Returns(true);
-            }
         }
 
         private Trie<char> Trie { get; set; }
@@ -193,4 +99,93 @@ namespace Trie.Net.Core.NUnitTest
             return expected(Trie.Search(predicate));
         }
     }
+
+    #region Test Case Data
+
+    public partial class TestTrie
+    {
+        private static IEnumerable TestCaseContainsWithPredicate => new[]
+        {
+            new TestCaseData(new Predicate<Node<char>>(node => node.Value == 'e')).Returns(false),
+            new TestCaseData(new Predicate<Node<char>>(node => node.Value == 'o')).Returns(true)
+        };
+
+        private static IEnumerable TestCaseContainsWithWords => new[]
+        {
+            new TestCaseData(Excludes).Returns(false), new TestCaseData(Presets).Returns(true)
+        };
+
+        private static IEnumerable TestCaseInsert => new[]
+        {
+            new TestCaseData(Presets,
+                    new Predicate<IEnumerable<string>>(words => words.All(word => Presets.Contains(word))))
+                .Returns(true)
+        };
+
+        private static IEnumerable TestCasePathTo => new[]
+        {
+            new TestCaseData(
+                    new Predicate<Node<char>>(node => node.Value == 'o'),
+                    new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
+                        paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
+                            .All(word => new[] {"Micro", "Microso"}.Contains(word))))
+                .Returns(true),
+            new TestCaseData(
+                    new Predicate<Node<char>>(node => node.Value == 't'),
+                    new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
+                        paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
+                            .All(word => new[] {"Microsoft", "MyScript"}.Contains(word))))
+                .Returns(true),
+            new TestCaseData(
+                    new Predicate<Node<char>>(node => node.Value == 'p'),
+                    new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
+                        paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
+                            .All(word => new[] {"MyScrip"}.Contains(word))))
+                .Returns(true),
+            new TestCaseData(
+                    new Predicate<Node<char>>(node => node.Value == 'y'),
+                    new Predicate<IEnumerable<IEnumerable<Node<char>>>>(paths =>
+                        paths.Select(path => new string(path.Select(node => node.Value).ToArray()))
+                            .All(word => new[] {"My"}.Contains(word))))
+                .Returns(true)
+        };
+
+        private static IEnumerable TestCaseRemove => new[]
+        {
+            new TestCaseData(Presets,
+                    new Predicate<IEnumerable<string>>(words => words.All(word => !Presets.Contains(word))))
+                .Returns(true)
+        };
+
+        private static IEnumerable TestCaseSearch => new[]
+        {
+            new TestCaseData(
+                    new Predicate<Node<char>>(node => node.Value == 'o' && node.IsEnd),
+                    new Predicate<IEnumerable<Node<char>>>(nodes =>
+                        new[] {'o'}.SequenceEqual(nodes.Select(node => node.Value))))
+                .Returns(true),
+            new TestCaseData(
+                    new Predicate<Node<char>>(node => node.Value == 'p'),
+                    new Predicate<IEnumerable<Node<char>>>(nodes =>
+                        new[] {'p'}.SequenceEqual(nodes.Select(node => node.Value))))
+                .Returns(true),
+            new TestCaseData(
+                    new Predicate<Node<char>>(node => node.Value == 'y'),
+                    new Predicate<IEnumerable<Node<char>>>(nodes =>
+                        new[] {'y'}.SequenceEqual(nodes.Select(node => node.Value))))
+                .Returns(true)
+        };
+    }
+
+    #endregion
+
+    #region Presets
+
+    public partial class TestTrie
+    {
+        private static IEnumerable<string> Excludes => new[] {"Microbe", "Microphone", "Microwave"};
+        private static IEnumerable<string> Presets => new[] {"Micro", "Microsoft", "MyScript"};
+    }
+
+    #endregion
 }
